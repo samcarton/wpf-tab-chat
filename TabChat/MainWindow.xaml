@@ -1,0 +1,41 @@
+﻿<Window
+    x:Class="TabChat.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:TabChat"
+    mc:Ignorable="d"
+    Title="MainWindow"
+    Height="350"
+    Width="525">
+    <Window.Resources>
+        <DataTemplate
+            DataType="{x:Type local:ChatHistory}"
+            x:Key="HeaderTemplate">
+            <!-- DataContext for these templates is assumed to be of type ChatHistory - as that is what the DataTemplate is made for.-->
+            <TextBlock>
+                <Run
+                    Text="{Binding Path=Sender}" />
+                <Run
+                    Text="->" />
+                <Run
+                    Text="{Binding Path=Receiver}" />
+            </TextBlock>
+        </DataTemplate>
+        <DataTemplate
+            DataType="{x:Type local:ChatHistory}"
+            x:Key="BodyTemplate">
+            <ListBox
+                ItemsSource="{Binding Path=Messages}" />
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <!-- DataContext for this window is set to a ChatManager in the codebehind.
+        Each ITEM in the TabControl (which is an ItemsControl) will get its DataContext set to whatever is held in ChatHistories - so a ChatHistory.-->
+        <TabControl
+            ItemsSource="{Binding Path=ChatHistories}"
+            ItemTemplate="{StaticResource HeaderTemplate}"
+            ContentTemplate="{StaticResource BodyTemplate}" />
+    </Grid>
+</Window>
